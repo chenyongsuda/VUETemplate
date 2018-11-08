@@ -1,0 +1,73 @@
+1. 用vscode打开刚生成的vue的脚手架
+   通过ctrl+`打开命令行 输入npm run dev
+===============================================
+1、vetur插件的安装
+该插件是vue文件基本语法的高亮插件，在插件窗口中输入vetur点击安装插件就行，装好后点击文件->首选项->设置 打开设置界面，在设置界面右侧添加配置
+
+2、eslint插件的安装
+eslint智能错误检测插件，在具体开发中作用很大，能够及时的帮我们发现错误。至于安装，同样打开插件扩展窗口输入eslint点击安装插件，装好后也需要进行配置，在同vetur插件一样的地方进行配置
+"eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "html",
+        "vue"
+    ],
+ 
+ "eslint.options": {
+        "plugins": ["html"]
+}
+
+3.Prettier - Code formatter
+
+在首选项===>设置====>用户设置加上个人的一些设定
+{
+    // prettier:每行在这个字符数内整合代码，如果你的屏幕较宽分辨率较高可以适当加大
+    "prettier.printWidth": 120,
+    // prettier:是否在每行末尾加上分号
+    "prettier.semi": false,
+    // prettier:如果为true，将使用单行否则使用双引号
+    "prettier.singleQuote": true,
+    // vetur:对html的内容使用js-beautify-html
+    "vetur.format.defaultFormatter.html": "js-beautify-html"
+}
+
+
+按下Alt+Shift+F，代码工工整整的格式化了，从此所有的文件都可以Alt+Shift+F一键格式化了，严格来说是三键格式化。
+
+2 自动生成代码块
+使用vs code - snippet生成代码块。以生成一个vue组件的基本内容为例。
+
+2.1 打开snippet - vue
+在vs code中，使用快捷键Ctrl+Shift+P打开搜索栏–>输入snippet–>选择首选项，
+
+在打开的vue.json中输入下面内容：
+
+{
+    "Print to console": {
+        "prefix": "vue",
+        "body": [
+            "<template>",
+            "  <div>\n",
+            "  </div>",
+            "</template>\n",
+            "<script>",
+            "export default {",
+            "  data() {",
+            "    return {\n",
+            "    }",
+            "  },",
+            "  methods: {\n",
+            "  },",
+            "  components: {\n",
+            "  }",
+            "}",
+            "</script>\n",
+            "<style>\n",
+            "</style>",
+            "$2"
+        ],
+        "description": "创建一个自定义的vue组件代码块"
+    }
+}
+
+创建一个test。vue  输入vue就会提示之前的模板
