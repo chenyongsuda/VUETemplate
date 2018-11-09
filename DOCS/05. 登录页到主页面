@@ -1,0 +1,28 @@
+写页面首先找个组件库
+安装ele vue
+
+安装
+npm i element-ui -S
+安装好后看到依赖包含了ele-ui了
+
+在main.js文件中 引入 element 组件  ：
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+Vue.use(ElementUI)
+
+有时候会有问题更新下npm
+npm install -g npm@latest
+
+运行时候会有css没发现问题安装如下包
+如果是 常规 的，执行 npm install stylus-loader css-loader style-loader --save-dev 安装依赖就行。
+如果是 less 的，执行 npm install less less-loader --save-dev 安装依赖就行。
+如果是 sass 的，执行 npm install sass sass-loader --save-dev 安装依赖就行。或者（$npm intall sass-loader --save ; $npm install node-sass --save）
+如果你不知道，好吧，你三个都执行吧。 
+一般只有在初始化配置的的时候才会出现这个问题，如果是已经完好的项目都会在package.json中已经配好，直接install即可。
+
+我通过npm使用上述命令安装有些依赖安装不下来
+换成cnpm install node-sass@latest安装好就行了.
+
+1.第一步设想登录页输入用户名密码进入主页面
+
