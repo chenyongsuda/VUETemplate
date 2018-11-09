@@ -1,0 +1,217 @@
+在前面我们打开 APP.vue 文件，代码如下（解释在注释中）：
+<!-- 展示模板 -->
+<template>
+  <div id="app">
+    <img src="./assets/logo.png">
+    <hello></hello>
+  </div>
+</template>
+ 
+<script>
+// 导入组件
+import Hello from './components/Hello'
+ 
+export default {
+  name: 'app',
+  components: {
+    Hello
+  }
+}
+</script>
+<!-- 样式代码 -->
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
+==================================================================
+src/components/Hello.vue
+<template>
+  <div class="hello">
+    <h1>{{ msg }}</h1>
+  </div>
+</template>
+ 
+<script>
+export default {
+  name: 'hello',
+  data () {
+    return {
+      msg: '欢迎来到菜鸟教程！'
+    }
+  }
+}
+</script>
+
+========================================================================
+
+export 导出组件比如导出组件名字为hello
+在上面的vue页面的话就可以应用
+导入组件文件
+// 导入组件
+import Hello from './components/Hello'
+// 加入组件名字
+components: {
+    Hello
+}
+
+使用<hello></hello>
+这里就会使用hello定义的模板套进去
+
+===============================================================================
+VUE程序基本上使用到的组件就是
+1. VUE 模板
+2. VUE 路由
+如何规划模板嵌套结构和路由策略呢
+
+首先看下默认的路由
+import Vue from 'vue'
+import Router from 'vue-router'
+import HelloWorld from '@/components/HelloWorld'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld
+    }
+  ]
+})
+
+表示跟路径映射模板HelloWorld
+
+APP.vue 对于的html为
+<template>
+  <div id="app">
+    <img src="./assets/logo.png">
+    <router-view/>
+  </div>
+</template>
+
+这样的话在输入/的时候会将route-view替换为hellowworld的模型
+
+当然这个是单页程序,思考下,一般的后台程序有登陆页,登录页面后面有后台主要操作页.其实是多个主页框架的入口.
+可以尝试做多个主页面
+如下
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'HelloWorld',
+      component: HelloWorld
+    },
+    {
+      path: '/main',
+      name: 'test',
+      component: test
+    }
+  ]
+})
+
+============================================================================================
+成熟的框架如何做法,凡是类似于我上面说的只是为页面划分了下文件夹
+export default new Router({
+  // mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRouterMap
+})
+
+将routes 对应到一个list
+export const constantRouterMap = [
+  { path: '/login', component: _import('login/index'), hidden: true },
+  { path: '/404', component: _import('error/404'), hidden: true },
+  { path: '/401', component: _import('error/401'), hidden: true },
+  {
+    path: '',
+    component: Layout,
+    redirect: 'dashboard',
+    children: [{
+      path: 'dashboard',
+      component: _import('dashboard/index'),
+      name: 'dashboard',
+      meta: { title: '首页', icon: 'dashboard', noCache: true }
+    }]
+  }
+]
+在这个map上可以看到有主要三类页面 login/main/40x
+并将这些页面新建文件夹views将页面相关vue放在页面上.
+文件夹格式类似于
+views---
+        login
+        error
+        layout -----主后台框架
+
+layout文件类似于
+<template>
+	<div class="app-wrapper" :class="{hideSidebar:!sidebar.opened}">
+		<sidebar class="sidebar-container"></sidebar>
+		<div class="main-container">
+			<navbar></navbar>
+			<tags-view></tags-view>
+			<app-main></app-main>
+		</div>
+	</div>
+</template>
+
+分为主框架路由和子框架路由
+如下为自框架路由
+export const asyncRouterMap = [
+  {
+    path: '/user',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'userManage',
+    meta: {
+      title: '用户管理',
+      icon: 'chart'
+    },
+    children: [
+      { path: 'user', component: _import('user/user'), name: 'user', meta: { title: '会员管理', noCache: true }},
+      { path: 'address', component: _import('user/address'), name: 'address', meta: { title: '收货地址', noCache: true }},
+      { path: 'collect', component: _import('user/collect'), name: 'collect', meta: { title: '会员收藏', noCache: true }},
+      { path: 'footprint', component: _import('user/footprint'), name: 'footprint', meta: { title: '会员足迹', noCache: true }},
+      { path: 'history', component: _import('user/history'), name: 'history', meta: { title: '搜索历史', noCache: true }}
+    ]
+  },
+
+  {
+    path: '/mall',
+    component: Layout,
+    redirect: 'noredirect',
+    name: 'mallManage',
+    meta: {
+      title: '商场管理',
+      icon: 'chart'
+    },
+    children: [
+      { path: 'region', component: _import('mall/region'), name: 'region', meta: { title: '行政区域', noCache: true }},
+      { path: 'brand', component: _import('mall/brand'), name: 'brand', meta: { title: '品牌制造商', noCache: true }},
+      { path: 'category', component: _import('mall/category'), name: 'category', meta: { title: '商品类目', noCache: true }},
+      { path: 'order', component: _import('mall/order'), name: 'order', meta: { title: '订单管理', noCache: true }},
+      { path: 'issue', component: _import('mall/issue'), name: 'issue', meta: { title: '通用问题', noCache: true }},
+      { path: 'keyword', component: _import('mall/keyword'), name: 'keyword', meta: { title: '关键词', noCache: true }}
+    ]
+  }
+  ]
+
+这个只是主框架路由但是如何控制url权限控制呢？
+控制URL的权限
+通过定义一个文件里面加上权限判断后面再分析
+
+        
+
+
+
+
+
+
+
