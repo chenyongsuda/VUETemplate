@@ -26,3 +26,5 @@ npm install -g npm@latest
 
 1.第一步设想登录页输入用户名密码进入主页面
 
+首先页面有图标的注册一个图标组件,
+使用Vue.component注册为一个全局VUE组件这样在VUE任何页面都可以使用
